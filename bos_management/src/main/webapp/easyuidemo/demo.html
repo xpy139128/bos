@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-1.8.3.js" ></script>
+		<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js" ></script>
+		<script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js" ></script>
+		<link rel="stylesheet" href="../js/easyui/themes/default/easyui.css" />
+		<link rel="stylesheet" href="../js/easyui/themes/icon.css" />
+		<!-- 引入ztree -->
+		<script src="../js/ztree/jquery.ztree.all-3.5.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../js/ztree/zTreeStyle.css"/>
+	
+		<script>
+			$(function(){
+				$("#aa").click(function(){
+					$("#center").tabs('add',{
+						title:'新建选项卡1',
+						content:'嘀嘀嘀'
+					});
+				});
+				
+				
+				var setting={
+					data:{
+						simpleData:{
+							enable:true
+						}
+					},
+					callback:{
+						onClick:function(event, treeId, treeNode, clickFlag){
+							var content='<div style="width:100%;height:100%;overflow:hidden;">'
+								+ '<iframe src="'
+								+ treeNode.page
+								+ '" scrolling="auto" style="width:100%;height:100%;border:0;" ></iframe></div>';
+							
+							if(treeNode.page != "" && treeNode.page != undefined){
+								if($("#center").tabs('exists',treeNode.name)){
+									$("#center").tabs('select',treeNode.name)
+								}else{
+									$("#center").tabs('add',{
+										title:treeNode.name,
+										content:content,
+										closable :true
+									})
+								}
+								
+							}
+						}
+					}
+				};
+				
+				var nodes = [
+					{id:1, pId:0, name: "父节点1"},
+					{id:11, pId:1, name: "百度",page:"http://www.baidu.com"},
+					{id:12, pId:1, name: "传智播客",page:"http://www.itcast.cn"}
+				];
+				
+				 $.fn.zTree.init($("#uu"), setting, nodes);
+				 
+				 
+				
+
+				$("#center").tabs({
+					onContextMenu:function(e, title,index){
+						e.preventDefault();
+						
+						 $('#mm').menu('show', { 
+							left: e.pageX, 
+							top: e.pageY 
+						});	
+					}
+				})
+				 
+				$.messager.alert('Warning','The warning message','warning')
+		
+				$.messager.confirm('warning','你确定删除吗?',function(resulst){
+					if(resulst){
+						alert("删除");
+					}else{
+						alert("撤回");
+					}
+				})
+				
+				$.messager.prompt('warning','请输入你的年龄',function(age){
+					if(age>18){
+						alert("6666");
+					}else{
+						alert("再你妈个见");
+					}
+				})
+				
+				$.messager.progress('close');  
+				/*$.messager.progress({
+					title:'我是假进度条',
+					msg:"嘀嘀嘀呜呜呜",
+					text:"~~~~~~~~~",
+					interval:1000
+				});*/
+				
+				$.messager.show({
+					title:'sss'
+				})
+				
+				$("#bb").click(function(){
+					$("#cc").window('open');
+				})
+			});
+			
+		</script>
+	
+	</head>
+	
+	
+	<body class="easyui-layout">
+		<div data-options="region:'north',title:'传智播客管理系统'" style="height:100px">
+			<a href="javascript:void(0)" class="easyui-menubutton" data-options="iconCls:'icon-save',menu:'#mm'">北部区域</a>
+		</div>
+		<div data-options="region:'west',title:'菜单导航'" style="width: 150px;">
+			<div class="easyui-accordion" data-options="fit:true">
+				<div data-options="title:'基础菜单'">
+					<ul id="uu" class="ztree"></ul>					
+				</div>				
+				<div data-options="title:'系统菜单'">
+					<a href="javascript:void(0)" id="aa">添加一个选项卡</a>	
+					<input type="button"  id="bb"/>
+				</div>		
+			</div>		
+		</div>
+		<div data-options="region:'center'">
+			<div class="easyui-tabs" data-options="fit:true" id="center">
+				<div data-options="title:'选项卡1',closable:true">1</div>				
+				<div data-options="title:'选项卡1'">2</div>	
+			</div>
+		</div>
+		<div data-options="region:'east'" style="width: 150px;">东部地区</div>
+		<div data-options="region:'south'" style="height: 100px;">南部区域</div>
+		
+		<div id="mm" class="easyui-menu" style="width: 120px;">
+			<div>关闭当前窗口</div>
+			<div>关闭其他窗口</div>
+			<div class="menu-sep"></div>
+			<div>关闭全部窗口</div>
+			<div data-options="iconCls:'icon-save'">Save</div> 
+		</div>
+		
+		<div id="mm" style="width: 120px;">
+			<div>菜单一</div>
+			<div>菜单二</div>
+			<div>菜单三</div>
+			<div class="menu-sep"></div>
+			<div>菜单四</div>
+		</div>
+		
+		<div id="cc" class="easyui-window" data-options="closed:true,collapsible:false,modal:true" style="height: 200px;width: 200px;">窗口</div>
+		
+	</body>
+</html>
